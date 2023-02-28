@@ -12,6 +12,7 @@ class PlannerNode:
     
     @staticmethod
     def RetracePath(start_node,end_node):
+         #Method to Retrace the path back to the start from the end
          current_node = end_node
          path=[]
          while(current_node!=start_node):
@@ -29,14 +30,8 @@ class PlannerNode:
 
          return reversed(path)
     
-    
-    def Hcost_calc(self,node):
-         
-         return ()
-    
-    
     def node_neighbors(self,node):
-        
+        #Method to create neighbor nodes
         if(node.value<=7): 
              #Top wall absent
              node.neighbors.append(Node([node.coords[0]-1,node.coords[1]],self.current_obj._MapNode__map.array[node.coords[0]-1][node.coords[1]]))
@@ -66,33 +61,17 @@ class PlannerNode:
             end = Node(self.current_obj._MapNode__map.end,self.current_obj._MapNode__map.array[self.current_obj._MapNode__map.end[0]][self.current_obj._MapNode__map.end[1]],float('inf'),0)
             count = 0
             
-           
-            
-            
             heapq.heapify(Open_Set)
             heapq.heappush(Open_Set,(start.fscore,count,start))
             
-            
-     
             while(len(Open_Set)!=0):
-                 
-                 
+        
                  current_Node = heapq.heappop(Open_Set)[2]
-                 current_Node.evaluated = True
-                 print(current_Node.coords)
-                 
-                 
                  if(current_Node.coords==end.coords):
                       return self.RetracePath(start,end)
-                 
-
                  self.node_neighbors(current_Node)
                  
-                 
-                      
-
                  for neighbor in current_Node.neighbors:
-                     
                       temp_gscore = current_Node.gscore + 1
                       if(temp_gscore<neighbor.gscore):
                            neighbor.parent = current_Node
@@ -105,7 +84,6 @@ class PlannerNode:
 
                    
 class Node:
-    
     
     def __init__(self,coords,value,gscore=float('inf'),fscore=float('inf'),parent=None):
         self.coords = coords
