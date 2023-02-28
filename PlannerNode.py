@@ -15,17 +15,17 @@ class PlannerNode:
          #Method to Retrace the path back to the start from the end
          current_node = end_node
          path=[]
-         while(current_node!=start_node):
+         while(current_node.coords!=start_node.coords):
                coords_change = [current_node.coords[0]-current_node.parent.coords[0],current_node.coords[1]-current_node.parent.coords[1]]
                if(coords_change[0]==1):
-                   path.append(3)
-               if(coords_change[0]==-1):
-                   path.append(2)
-               if(coords_change[1]==1):
                    path.append(0)
-               if(coords_change[1]==-1):
+               if(coords_change[0]==-1):
                    path.append(1)
-                   
+               if(coords_change[1]==1):
+                   path.append(2)
+               if(coords_change[1]==-1):
+                   path.append(3)
+
                current_node=current_node.parent
 
          return reversed(path)
