@@ -58,6 +58,7 @@ class PlannerNode:
     def wall_callback(self):
             
             Open_Set = []
+            Close_set = []
             start = Node(self.current_obj.current,self.current_obj._MapNode__map.array[self.current_obj.current[0]][self.current_obj.current[1]],0,self.heuristic_cost(self.current_obj.current))
             end = Node(self.current_obj._MapNode__map.end,self.current_obj._MapNode__map.array[self.current_obj._MapNode__map.end[0]][self.current_obj._MapNode__map.end[1]],float('inf'),0)
             count = 0
@@ -68,11 +69,15 @@ class PlannerNode:
             while(len(Open_Set)!=0):
         
                  current_Node = heapq.heappop(Open_Set)[2]
+                 Close_set.append(current_Node.coords)
+
                  if(current_Node.coords==end.coords):
                       return self.RetracePath(start,end)
                  self.node_neighbors(current_Node)
                  
                  for neighbor in current_Node.neighbors:
+                      if(neighbor.coords in Close_set):
+                           continue
                       temp_gscore = current_Node.gscore + 1
                       if(temp_gscore<neighbor.gscore):
                            neighbor.parent = current_Node
@@ -81,9 +86,11 @@ class PlannerNode:
                            if(neighbor not in Open_Set):
                                 count+=1
                                 heapq.heappush(Open_Set,(neighbor.fscore,count,neighbor))
-                                
 
-                   
+            return "No path Found"
+
+        
+           
 class Node:
     
     def __init__(self,coords,value,gscore=float('inf'),fscore=float('inf'),parent=None):
