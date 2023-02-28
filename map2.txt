@@ -1,0 +1,30 @@
+10 10
+0 0 7 7
+14 8 8 8 8 8 8 8 8 11
+ 6 0 0 0 0 0 0 0 0 11
+ 6 0 0 0 0 0 0 0 0 11
+ 4 0 0 0 0 0 0 0 0 11
+ 6 0 0 0 0 0 0 0 0 11
+ 4 0 0 0 0 0 0 0 0 11
+ 6 0 0 0 0 0 0 0 0 10
+ 6 0 0 0 0 0 0 0 0  7
+ 6 0 0 0 0 0 0 0 0 11
+ 5 1 1 1 1 1 1 1 1 15
+
+        self.current_obj.direction_callback("down")
+        self.current_obj.direction_callback("down")
+        self.current_obj.direction_callback("down")
+        self.current_obj.direction_callback("down")
+        self.current_obj.direction_callback("right")
+        self.current_obj.direction_callback("down")
+        self.current_obj.direction_callback("down")
+        self.current_obj.direction_callback("down")
+        self.current_obj.direction_callback("down")
+        self.current_obj.direction_callback("right")
+        self.current_obj.direction_callback("right")
+        self.current_obj.direction_callback("right")
+        self.current_obj.direction_callback("right")
+        self.current_obj.direction_callback("right")
+        self.current_obj.direction_callback("right")
+        self.current_obj.direction_callback("up")
+        self.current_obj.direction_callback("up")

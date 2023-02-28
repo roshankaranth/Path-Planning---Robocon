@@ -8,6 +8,7 @@ class PlannerNode:
         self.current_obj=MapNode()
         # Since we know that the first step the bot will take will be down, we can simply do it here
         self.current_obj.direction_callback("down")  # example 1
+
         print(self.wall_callback())
     
     @staticmethod
@@ -18,36 +19,35 @@ class PlannerNode:
          while(current_node.coords!=start_node.coords):
                coords_change = [current_node.coords[0]-current_node.parent.coords[0],current_node.coords[1]-current_node.parent.coords[1]]
                if(coords_change[0]==1):
-                   path.append(0)
-               if(coords_change[0]==-1):
                    path.append(1)
+               if(coords_change[0]==-1):
+                   path.append(0)
                if(coords_change[1]==1):
-                   path.append(2)
-               if(coords_change[1]==-1):
                    path.append(3)
+               if(coords_change[1]==-1):
+                   path.append(2)
 
                current_node=current_node.parent
 
-         return reversed(path)
+         return list(reversed(path))
     
     def node_neighbors(self,node):
         #Method to create neighbor nodes
         if(node.value<=7): 
              #Top wall absent
-             node.neighbors.append(Node([node.coords[0]-1,node.coords[1]],self.current_obj._MapNode__map.array[node.coords[0]-1][node.coords[1]]))
+             node.neighbors.append(Node((node.coords[0]-1,node.coords[1]),self.current_obj._MapNode__map.array[node.coords[0]-1][node.coords[1]]))
              
         if(node.value%2==0):
              #Bottom wall absent
-             node.neighbors.append(Node([node.coords[0]+1,node.coords[1]],self.current_obj._MapNode__map.array[node.coords[0]+1][node.coords[1]]))
+             node.neighbors.append(Node((node.coords[0]+1,node.coords[1]),self.current_obj._MapNode__map.array[node.coords[0]+1][node.coords[1]]))
              
         if(node.value!=12 and node.value!=6 and node.value!=5 and node.value!=4 and node.value!=14 and node.value!=7 and node.value!=13 and node.value!=0):
              #Left wall absent
-             node.neighbors.append(Node([node.coords[0],node.coords[1]-1],self.current_obj._MapNode__map.array[node.coords[0]][node.coords[1]-1]))
+             node.neighbors.append(Node((node.coords[0],node.coords[1]-1),self.current_obj._MapNode__map.array[node.coords[0]][node.coords[1]-1]))
              
         if(node.value!=2 and node.value!=3 and node.value!=10 and node.value!=6 and node.value!=14 and node.value!=7 and node.value!=11 and node.value!=0):
              #Right wall absent
-             
-             node.neighbors.append(Node([node.coords[0],node.coords[1]+1],self.current_obj._MapNode__map.array[node.coords[0]][node.coords[1]+1]))
+             node.neighbors.append(Node((node.coords[0],node.coords[1]+1),self.current_obj._MapNode__map.array[node.coords[0]][node.coords[1]+1]))
 
 
     def heuristic_cost(self,node_coords):
@@ -67,18 +67,20 @@ class PlannerNode:
             heapq.heappush(Open_Set,(start.fscore,count,start))
             
             while(len(Open_Set)!=0):
-        
+                 
                  current_Node = heapq.heappop(Open_Set)[2]
                  Close_set.append(current_Node.coords)
-
+                 
                  if(current_Node.coords==end.coords):
-                      return self.RetracePath(start,end)
+                      return self.RetracePath(start,current_Node)
                  self.node_neighbors(current_Node)
                  
                  for neighbor in current_Node.neighbors:
                       if(neighbor.coords in Close_set):
                            continue
+                      
                       temp_gscore = current_Node.gscore + 1
+
                       if(temp_gscore<neighbor.gscore):
                            neighbor.parent = current_Node
                            neighbor.gscore = temp_gscore
@@ -89,8 +91,7 @@ class PlannerNode:
 
             return "No path Found"
 
-        
-           
+
 class Node:
     
     def __init__(self,coords,value,gscore=float('inf'),fscore=float('inf'),parent=None):
