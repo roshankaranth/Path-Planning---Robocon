@@ -25,7 +25,7 @@ class PlannerNode:
                    path.append(0)
                if(coords_change[1]==-1):
                    path.append(1)
-
+                   
                current_node=current_node.parent
 
          return reversed(path)
@@ -36,19 +36,14 @@ class PlannerNode:
              #Top wall absent
              node.neighbors.append(Node([node.coords[0]-1,node.coords[1]],self.current_obj._MapNode__map.array[node.coords[0]-1][node.coords[1]]))
              
-             
         if(node.value%2==0):
              #Bottom wall absent
              node.neighbors.append(Node([node.coords[0]+1,node.coords[1]],self.current_obj._MapNode__map.array[node.coords[0]+1][node.coords[1]]))
              
-             
-        
         if(node.value!=12 and node.value!=6 and node.value!=5 and node.value!=4 and node.value!=14 and node.value!=7 and node.value!=13 and node.value!=0):
              #Left wall absent
              node.neighbors.append(Node([node.coords[0],node.coords[1]-1],self.current_obj._MapNode__map.array[node.coords[0]][node.coords[1]-1]))
              
-             
-
         if(node.value!=2 and node.value!=3 and node.value!=10 and node.value!=6 and node.value!=14 and node.value!=7 and node.value!=11 and node.value!=0):
              #Right wall absent
              
@@ -94,16 +89,6 @@ class Node:
         self.neighbors = []
         
         
-        
-        
-
-   
-             
-             
-             
-
-
-
         
 if __name__ == '__main__':
     start_obj=PlannerNode()
