@@ -49,10 +49,16 @@ class PlannerNode:
              
              node.neighbors.append(Node([node.coords[0],node.coords[1]+1],self.current_obj._MapNode__map.array[node.coords[0]][node.coords[1]+1]))
 
+
+    def heuristic_cost(self,node_coords):
+         #Determines the Manhattan distance between the current node and the end node
+         return abs(node_coords[0]-self.current_obj._MapNode__map.end[0])+abs(node_coords[1]-self.current_obj._MapNode__map.end[1])
+
+
     def wall_callback(self):
             
             Open_Set = []
-            start = Node(self.current_obj.current,self.current_obj._MapNode__map.array[self.current_obj.current[0]][self.current_obj.current[1]],0,abs(self.current_obj.current[0]-self.current_obj._MapNode__map.end[0])+abs(self.current_obj.current[1]-self.current_obj._MapNode__map.end[1]))
+            start = Node(self.current_obj.current,self.current_obj._MapNode__map.array[self.current_obj.current[0]][self.current_obj.current[1]],0,self.heuristic_cost(self.current_obj.current))
             end = Node(self.current_obj._MapNode__map.end,self.current_obj._MapNode__map.array[self.current_obj._MapNode__map.end[0]][self.current_obj._MapNode__map.end[1]],float('inf'),0)
             count = 0
             
@@ -71,7 +77,7 @@ class PlannerNode:
                       if(temp_gscore<neighbor.gscore):
                            neighbor.parent = current_Node
                            neighbor.gscore = temp_gscore
-                           neighbor.fscore = temp_gscore+ abs(neighbor.coords[0]-self.current_obj._MapNode__map.end[0])+abs(neighbor.coords[1]-self.current_obj._MapNode__map.end[1])
+                           neighbor.fscore = temp_gscore+ self.heuristic_cost(neighbor.coords)
                            if(neighbor not in Open_Set):
                                 count+=1
                                 heapq.heappush(Open_Set,(neighbor.fscore,count,neighbor))
