@@ -12,6 +12,7 @@ class PlannerNode:
 
         print(self.wall_callback())
 
+       
     @staticmethod
     def RetracePath(start_node,end_node):
          #Method to Retrace the path back to the start from the end
